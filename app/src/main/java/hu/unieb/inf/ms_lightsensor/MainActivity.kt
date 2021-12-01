@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         text = findViewById(R.id.luxvalue)
 
         setUpSensor()
@@ -32,10 +31,37 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(p0: SensorEvent?) {
-        TODO("Not yet implemented")
+        if (p0?.sensor?.type == Sensor.TYPE_LIGHT) {
+            val light1 = p0.values[0]
+
+            text.text = "Sensor: $light1\n${brightness(light1)}"
+
+        }
+    }
+
+    private fun brightness(brightness: Float): String {
+
+        return when (brightness.toInt()) {
+            0 -> "Vak sötét"
+            in 1..20 -> "Sötér"
+            in 21..100 -> "Szürkület"
+            in 101..5000 -> "Világos"
+            in 5001..25000 -> "Nagyon világos"
+            else -> "Nagon nagyon nagyon vilagos"
+        }
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-        TODO("Not yet implemented")
+        return
+    }
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(this, fenyero, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
     }
 }
