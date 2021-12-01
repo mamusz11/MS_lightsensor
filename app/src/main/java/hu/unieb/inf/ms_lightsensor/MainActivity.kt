@@ -1,13 +1,17 @@
 package hu.unieb.inf.ms_lightsensor
 
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.progressindicator.LinearProgressIndicator
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -34,7 +38,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (p0?.sensor?.type == Sensor.TYPE_LIGHT) {
             val light1 = p0.values[0]
 
-            text.text = "Sensor: $light1\n${brightness(light1)}"
+            text.text = "Lux: $light1\n${brightness(light1)}"
 
         }
     }
